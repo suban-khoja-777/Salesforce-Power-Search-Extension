@@ -1,0 +1,19 @@
+{
+  "name": "salesforce-power-search-extension",
+  "version": "0.11.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "check": "node scripts/check.mjs",
+    "preview": "node scripts/preview.mjs",
+    "build:vendor": "node scripts/build-vendor.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "fast-xml-parser": "^5.11.2",
+    "fflate": "^0.8.3",
+    "jsdom": "^30.1.2",
+    "monaco-editor": "^0.57.0"
+  }
+}

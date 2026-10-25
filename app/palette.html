@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Power Search</title>
+  <link rel="stylesheet" href="palette.css">
+</head>
+<body>
+  <section class="palette" role="dialog" aria-modal="true" aria-label="Power Search for Salesforce">
+    <div class="view-controls"><nav class="workspace-tabs" role="tablist" aria-label="Workspace"><button id="search-tab" data-workspace="search" role="tab" aria-selected="true" aria-controls="search-workspace">Search</button><button id="query-open" data-workspace="query" role="tab" aria-selected="false" aria-controls="query-workspace" tabindex="-1">Query</button><button id="record-tab" data-workspace="record" role="tab" aria-selected="false" aria-controls="record-workspace" tabindex="-1" hidden>Record</button><button id="coding-tab" data-workspace="coding" role="tab" aria-selected="false" aria-controls="coding-workspace" tabindex="-1">Coding</button><button id="settings-tab" data-workspace="settings" role="tab" aria-selected="false" aria-controls="settings-workspace" tabindex="-1">Settings</button></nav><span class="workspace-shortcut" title="Ctrl+Left/Right cycles workspaces; Ctrl+Alt+1–9 selects a workspace">Ctrl+← / →</span><label for="view-mode">View</label><select id="view-mode" aria-label="Search view"><option value="popup">Popup</option><option value="sidebar">Sidebar</option><option value="fullpage">Full page</option></select><span id="view-status" class="sr-only" role="status"></span><button id="close" class="key-button" title="Close Power Search">esc</button></div>
+    <div class="search-line">
+      <img class="brand-logo" src="../assets/logo.png" alt="Power Search">
+      <input id="search" type="text" placeholder="Search your Salesforce universe…" aria-label="Search metadata names" role="combobox" aria-autocomplete="list" aria-expanded="true" aria-controls="results" autocomplete="off" spellcheck="false">
+      <h1 id="query-title" hidden>Query Records</h1>
+    </div>
+
+    <section id="search-workspace" role="tabpanel" aria-labelledby="search-tab">
+    <div class="toolbar"><div id="filters" role="group" aria-label="Metadata type"></div></div>
+    <div class="coverage-bar"><button id="debug-enable">Enable debug logs for me</button><button id="coverage-toggle" aria-expanded="false">Metadata coverage</button><span id="coverage-count"></span><button id="index-all">Index all types</button></div>
+    <div id="coverage" hidden><p>Only your selected categories are indexed. Recent records come from Salesforce. Recent components are items opened through Power Search during this browser session.</p><ul id="coverage-list"></ul></div>
+    <div class="results-heading"><span id="heading">EXPLORE YOUR ORG</span><span id="count">Connecting…</span></div>
+    <div id="notice" role="alert" hidden></div>
+    <div id="results" role="listbox" aria-label="Metadata results" aria-busy="true"></div>
+    <div id="detail" hidden><button id="detail-back">← Results</button><h2 id="detail-name"></h2><p id="detail-type"></p><p id="detail-api"></p><p id="detail-id"></p><p>No direct Setup link is available for this metadata type.</p><button id="copy-name">Copy API name</button><span id="copy-status" role="status"></span></div>
+</section>
+<section id="query-workspace" role="tabpanel" aria-labelledby="query-open" hidden>
+ <div class="query-actions legacy-object-picker" hidden><div class="object-picker"><label for="query-object-filter">Object</label><input id="query-object-filter" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="object-suggestions" autocomplete="off" aria-label="Find object" placeholder="Type object API name or label…"><div id="object-suggestions" role="listbox" aria-label="Matching objects" hidden></div></div><span id="selected-object"></span><select id="query-object" hidden aria-label="Query object"><option value="">Choose an object…</option></select></div>
+ <div class="editor-wrap"><label for="query-editor">SOQL <span>Ctrl / Cmd + Enter to run</span></label><textarea id="query-editor" spellcheck="false" aria-autocomplete="list" aria-controls="field-suggestions" aria-expanded="false" placeholder="Type an object API name to start a query…"></textarea><div id="field-suggestions" role="listbox" aria-label="Field and WHERE value suggestions" hidden></div></div>
+ <div class="field-browser-controls"><button id="query-run" class="primary">Run query</button><button id="view-all-fields" aria-expanded="false" aria-controls="all-fields" disabled>View all fields</button><input id="field-filter" type="search" aria-label="Find fields" placeholder="Filter fields by API name or label…" hidden></div><div id="all-fields" aria-label="All object fields" hidden></div>
+ <span id="field-note" class="sr-only">Fields are suggested as you type.</span>
+ <p id="query-status" role="status"></p>
+ <div class="query-actions"><input id="result-search" type="search" placeholder="Search loaded results…" aria-label="Search loaded results"><select id="export-scope" aria-label="CSV export scope"><option value="filtered">Filtered rows</option><option value="all">All loaded rows</option><option value="selected">Selected rows</option></select><button id="query-export">Export CSV</button><button id="query-delete" class="danger" title="Delete up to 200 selected records">Delete selected</button><button id="query-clear-selection">Clear selection</button><span id="query-count"></span></div>
+ <p id="query-empty">Run a query to see records. Include Id to open and select records.</p>
+ <div class="query-table-wrap"><table aria-label="Query results"><thead id="query-head"></thead><tbody id="query-body"></tbody></table></div>
+ <ul id="delete-errors" role="alert"></ul><p id="query-limit" hidden>10,000-row limit reached. Narrow your query.</p>
+ <div class="query-actions query-pagination"><button id="query-more">Load more</button><button id="query-all">Load all</button><button id="query-prev">←</button><span id="query-page"></span><button id="query-next">→</button></div>
+ <div id="delete-review" role="alertdialog" aria-modal="true" aria-labelledby="delete-summary" hidden><p id="delete-summary"></p><pre id="delete-ids"></pre><label for="delete-word">Type DELETE to confirm these records (expires in 60 seconds)</label><input id="delete-word" autocomplete="off"><div class="query-actions"><button id="cancel-delete">Cancel</button><button id="confirm-delete" class="danger" disabled>Confirm delete</button></div></div>
+ </section>
+<section id="record-workspace" class="admin-workspace" role="tabpanel" aria-labelledby="record-tab" hidden></section>
+<section id="coding-workspace" class="admin-workspace" role="tabpanel" aria-labelledby="coding-tab" hidden><h2>Coding workspace</h2><p>Edit Classes, Triggers and LWC in a full editor with local project sync.</p><button id="coding-launch">Open Coding in a new tab</button><p id="coding-launch-status" role="status"></p></section>
+<section id="settings-workspace" class="admin-workspace" role="tabpanel" aria-labelledby="settings-tab" hidden></section>
+    <footer><span class="keyboard-help"><kbd>↑</kbd><kbd>↓</kbd> navigate <kbd>↵</kbd> new tab <span class="new-tab-hint">Ctrl + Space search</span></span><span class="connection"><i></i><span id="status">Connecting to Salesforce</span><button id="refresh" title="Refresh metadata" aria-label="Refresh metadata">↻</button></span></footer>
+  </section>
+  <span id="announcement" class="sr-only" role="status" aria-live="polite"></span>
+  <script type="module" src="palette.js"></script>
+</body>
+</html>

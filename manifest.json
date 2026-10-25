@@ -1,0 +1,75 @@
+{
+  "manifest_version": 3,
+  "name": "Power Search for Salesforce",
+  "version": "0.11.0",
+  "description": "Spotlight-style search for Salesforce metadata names, in Lightning apps and Setup.",
+  "minimum_chrome_version": "120",
+  "permissions": [
+    "cookies",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://*.my.salesforce.com/*",
+    "https://*.lightning.force.com/*",
+    "https://*.my.salesforce-setup.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Open Power Search",
+    "default_popup": "app/launcher.html",
+    "default_icon": {
+      "16": "assets/logo.png",
+      "32": "assets/logo.png",
+      "48": "assets/logo.png",
+      "128": "assets/logo.png"
+    }
+  },
+  "commands": {
+    "toggle-search": {
+      "suggested_key": {
+        "default": "Ctrl+Space",
+        "mac": "MacCtrl+Space"
+      },
+      "description": "Toggle Power Search on the current Salesforce page"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.my.salesforce.com/*",
+        "https://*.lightning.force.com/*",
+        "https://*.my.salesforce-setup.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "app/palette.html"
+      ],
+      "matches": [
+        "https://*.my.salesforce.com/*",
+        "https://*.lightning.force.com/*",
+        "https://*.my.salesforce-setup.com/*"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; frame-ancestors https://*.my.salesforce.com https://*.lightning.force.com https://*.my.salesforce-setup.com"
+  },
+  "icons": {
+    "16": "assets/logo.png",
+    "32": "assets/logo.png",
+    "48": "assets/logo.png",
+    "128": "assets/logo.png"
+  }
+}
